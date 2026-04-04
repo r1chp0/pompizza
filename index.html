@@ -17,39 +17,51 @@
     .frame {
       position: relative;
       line-height: 0;
+      /* Size frame to exactly the displayed image in both portrait and landscape viewports */
+      width: 100vw;
+      max-width: min(100vw, calc(100vh * 2940 / 1912));
     }
     .poster {
-      max-width: 100vw;
-      max-height: 100vh;
+      display: block;
+      width: 100%;
     }
-    .pom-hover {
+    .overlay {
       position: absolute;
-      left: 43%;
-      top: 15%;
-      width: 18%;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      overflow: hidden;
-      opacity: 0;
-      transition: opacity 0.3s;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    .pom-trigger {
+      pointer-events: all;
       cursor: pointer;
     }
-    .pom-hover:hover {
-      opacity: 1;
+    .pom-img {
+      opacity: 0;
+      transition: opacity 0.3s;
     }
-    .pom-hover img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .pom-trigger:hover .pom-img {
+      opacity: 1;
     }
   </style>
 </head>
 <body>
   <div class="frame">
-    <img src="Slice.png" class="poster" alt="copyright R. Pompetti, 2025">
-    <div class="pom-hover">
-      <img src="Pomeranian.jpeg" alt="Pomeranian">
-    </div>
+    <img src="Slice.webp" class="poster" alt="copyright R. Pompetti, 2025">
+    <svg class="overlay" viewBox="0 0 2940 1912" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="c">
+          <circle cx="1555" cy="555" r="300"/>
+        </clipPath>
+      </defs>
+      <g class="pom-trigger">
+        <image href="Pomeranian.jpeg"
+               x="1255" y="255" width="600" height="600"
+               clip-path="url(#c)"
+               class="pom-img"/>
+        <!-- transparent circle is the hover target -->
+        <circle cx="1555" cy="555" r="300" fill="transparent"/>
+      </g>
+    </svg>
   </div>
 </body>
 </html>

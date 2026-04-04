@@ -7,6 +7,7 @@ TYPES = {
     '.jpeg': 'image/jpeg',
     '.css': 'text/css',
     '.js': 'application/javascript',
+    '.webp': 'image/webp',
     '.ico': 'image/x-icon',
 }
 
