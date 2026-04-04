@@ -14,12 +14,19 @@
       align-items: center;
       justify-content: center;
     }
-    .poster {
+    .frame {
+      position: relative;
+      width: fit-content;
       max-width: 100vw;
+      line-height: 0;
+    }
+    .poster {
+      display: block;
+      max-width: 100%;
       max-height: 100vh;
     }
     .pom-hover {
-      position: fixed;
+      position: absolute;
       border-radius: 50%;
       overflow: hidden;
       opacity: 0;
@@ -38,38 +45,34 @@
   </style>
 </head>
 <body>
-  <img src="Slice.webp" class="poster" alt="copyright R. Pompetti, 2025">
-  <div id="debug" style="position:fixed;border:3px solid lime;border-radius:50%;pointer-events:none;z-index:9999;"></div>
-  <div class="pom-hover">
-    <img src="Pomeranian.jpeg" alt="Pomeranian">
+  <div class="frame">
+    <img src="slice.svg" class="poster" alt="copyright R. Pompetti, 2025">
+    <div class="pom-hover">
+      <img src="pomeranian.jpg" alt="Pomeranian">
+    </div>
   </div>
   <script>
-    // Blue circle in original 1634x1383 image: starts at x=541, y=0, size=355x344
-    const IMG_W = 1634, IMG_H = 1383;
-    const CX = 541 + 355 / 2;   // 718.5
-    const CY = 344 / 2;          // 172
-    const R  = 355 / 2;          // 177.5
+    // Blue circle in 1634x1383 image: x=541, y=0, w=355, h=344
+    const IMG_W = 1634;
+    const CX = 541 + 355 / 2;  // 718.5 — center of blue circle
+    const CY = 344 - 173.5;    // 166.5 — true center (circle cropped at top)
+    const R  = 155;             // smaller than full radius so circle stays fully visible
 
+    const frame  = document.querySelector('.frame');
     const poster = document.querySelector('.poster');
     const hover  = document.querySelector('.pom-hover');
-    const debug  = document.querySelector('#debug');
 
     function position() {
-      const rect  = poster.getBoundingClientRect();
-      const scale = rect.width / IMG_W;
+      const iRect = poster.getBoundingClientRect();
+      const fRect = frame.getBoundingClientRect();
+      const scale = iRect.width / IMG_W;
       const r  = R  * scale;
-      const cx = rect.left + CX * scale;
-      const cy = rect.top  + CY * scale;
+      const cx = (iRect.left - fRect.left) + CX * scale;
+      const cy = (iRect.top  - fRect.top)  + CY * scale;
       hover.style.left   = (cx - r) + 'px';
       hover.style.top    = (cy - r) + 'px';
       hover.style.width  = (r * 2)  + 'px';
       hover.style.height = (r * 2)  + 'px';
-
-      // DEBUG: show ring so we can verify placement — remove once aligned
-      debug.style.left   = (cx - r) + 'px';
-      debug.style.top    = (cy - r) + 'px';
-      debug.style.width  = (r * 2)  + 'px';
-      debug.style.height = (r * 2)  + 'px';
     }
 
     poster.addEventListener('load', position);

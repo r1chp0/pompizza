@@ -8,6 +8,7 @@ TYPES = {
     '.css': 'text/css',
     '.js': 'application/javascript',
     '.webp': 'image/webp',
+    '.svg': 'image/svg+xml',
     '.ico': 'image/x-icon',
 }
 
