@@ -4,6 +4,7 @@ TYPES = {
     '.html': 'text/html',
     '.png': 'image/png',
     '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
     '.css': 'text/css',
     '.js': 'application/javascript',
     '.ico': 'image/x-icon',

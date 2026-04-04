@@ -14,14 +14,42 @@
       align-items: center;
       justify-content: center;
     }
-    img {
-      max-width: 100%;
+    .frame {
+      position: relative;
+      line-height: 0;
+    }
+    .poster {
+      max-width: 100vw;
       max-height: 100vh;
-      object-fit: contain;
+    }
+    .pom-hover {
+      position: absolute;
+      left: 43%;
+      top: 15%;
+      width: 18%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.3s;
+      cursor: pointer;
+    }
+    .pom-hover:hover {
+      opacity: 1;
+    }
+    .pom-hover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   </style>
 </head>
 <body>
-  <img src="Slice.png" alt="Pom Pizza">
+  <div class="frame">
+    <img src="Slice.png" class="poster" alt="copyright R. Pompetti, 2025">
+    <div class="pom-hover">
+      <img src="Pomeranian.jpeg" alt="Pomeranian">
+    </div>
+  </div>
 </body>
 </html>
