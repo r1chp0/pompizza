@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noai, noimageai">
-  <title>Pom Pizza</title>
+  <title>PomPizza</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -17,18 +17,16 @@
     .frame {
       position: relative;
       line-height: 0;
-      /* Size frame to exactly the displayed image in both portrait and landscape viewports */
-      width: 100vw;
-      max-width: min(100vw, calc(100vh * 2940 / 1912));
     }
     .poster {
       display: block;
-      width: 100%;
+      max-width: 100vw;
+      max-height: 100vh;
     }
     .overlay {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
       pointer-events: none;
     }
     .pom-trigger {
@@ -50,18 +48,30 @@
     <svg class="overlay" viewBox="0 0 2940 1912" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <clipPath id="c">
-          <circle cx="1555" cy="555" r="300"/>
+          <circle cx="1545" cy="565" r="255"/>
         </clipPath>
       </defs>
       <g class="pom-trigger">
         <image href="Pomeranian.jpeg"
-               x="1255" y="255" width="600" height="600"
+               x="1290" y="310" width="510" height="510"
                clip-path="url(#c)"
                class="pom-img"/>
-        <!-- transparent circle is the hover target -->
-        <circle cx="1555" cy="555" r="300" fill="transparent"/>
+        <circle cx="1545" cy="565" r="255" fill="transparent"/>
       </g>
     </svg>
   </div>
+  <script>
+    // Size the SVG overlay to match the image exactly, regardless of viewport
+    function fitOverlay() {
+      const img = document.querySelector('.poster');
+      const svg = document.querySelector('.overlay');
+      svg.style.width  = img.offsetWidth  + 'px';
+      svg.style.height = img.offsetHeight + 'px';
+    }
+    const img = document.querySelector('.poster');
+    img.addEventListener('load', fitOverlay);
+    window.addEventListener('resize', fitOverlay);
+    if (img.complete) fitOverlay();
+  </script>
 </body>
 </html>
