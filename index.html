@@ -37,7 +37,8 @@
       opacity: 0;
       transition: opacity 0.3s;
     }
-    .pom-trigger:hover .pom-img {
+    .pom-trigger:hover .pom-img,
+    .pom-trigger.tapped .pom-img {
       opacity: 1;
     }
   </style>
@@ -72,6 +73,16 @@
     img.addEventListener('load', fitOverlay);
     window.addEventListener('resize', fitOverlay);
     if (img.complete) fitOverlay();
+
+    // Touch: show Pomeranian for 5 seconds on tap
+    let tapTimer = null;
+    const trigger = document.querySelector('.pom-trigger');
+    trigger.addEventListener('touchstart', function(e) {
+      e.preventDefault(); // prevent ghost click
+      clearTimeout(tapTimer);
+      trigger.classList.add('tapped');
+      tapTimer = setTimeout(() => trigger.classList.remove('tapped'), 5000);
+    }, { passive: false });
   </script>
 </body>
 </html>
