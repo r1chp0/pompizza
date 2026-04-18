@@ -4,24 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noai, noimageai">
+  <meta name="theme-color" content="#F04B39">
   <title>PomPizza</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html {
-      height: 500vh;
+      scrollbar-width: none;
+    }
+    html::-webkit-scrollbar {
+      display: none;
     }
     body {
       background: #F04B39;
-      height: 100vh;
-      position: fixed;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10vh 10vw;
+      height: 50000vh;
     }
     .frame {
-      position: relative;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       width: fit-content;
       max-width: 80vw;
       line-height: 0;
@@ -86,18 +87,17 @@
     window.addEventListener('resize', position);
     if (poster.complete) position();
 
-    // Scroll-linked color cycling
-    // Both effects start from the original values at t=0 so there's no jump
+    // Scroll-linked color cycling — hue is circular so it wraps forever naturally
     // #F04B39 ≈ hsl(6, 86%, 58%)
+    const CYCLE = 3000; // px per full background hue rotation
     window.addEventListener('scroll', () => {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const t = Math.max(0, Math.min(window.scrollY / maxScroll, 1));
-      const bgHue   = 6   + t * 360;              // starts at original red hue
-      const bgSat   = 86  - t * 11;               // 86% → 75%
-      const bgLight = 58  - t * 8;                // 58% → 50%
-      const imgHue  = t * 360 * 2;                // two full cycles
-      const imgSat  = 1   + t * 0.5;              // 1.0 → 1.5
-      document.body.style.backgroundColor = `hsl(${bgHue}, ${bgSat}%, ${bgLight}%)`;
+      const scroll  = window.scrollY;
+      const ramp    = Math.min(scroll / 300, 1);   // sat/light settle after ~300px
+      const bgHue   = 6   + (scroll / CYCLE) * 360;
+      const imgHue  = (scroll / CYCLE) * 360 * 2;  // cycles twice as fast
+      const imgSat  = 1   + ramp * 0.5;            // 1.0 → 1.5
+      const color = `hsl(${bgHue}, 86%, 58%)`;
+      document.body.style.backgroundColor = color;
       poster.style.filter = `hue-rotate(${imgHue}deg) saturate(${imgSat})`;
     });
 
